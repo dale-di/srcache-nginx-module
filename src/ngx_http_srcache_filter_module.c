@@ -66,7 +66,13 @@ static ngx_command_t  ngx_http_srcache_commands[] = {
       NGX_HTTP_LOC_CONF_OFFSET,
       offsetof(ngx_http_srcache_loc_conf_t, buf_size),
       NULL },
-
+    { ngx_string("srcache_min_uses"),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF
+          |NGX_CONF_TAKE1,
+      ngx_conf_set_num_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_srcache_loc_conf_t, min_uses),
+      NULL },
     { ngx_string("srcache_fetch"),
       NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF
           |NGX_CONF_TAKE23,
@@ -287,6 +293,7 @@ ngx_http_srcache_create_loc_conf(ngx_conf_t *cf)
 
     conf->hide_headers = NGX_CONF_UNSET_PTR;
     conf->pass_headers = NGX_CONF_UNSET_PTR;
+    conf->min_uses = NGX_CONF_UNSET_UINT;
 
     return conf;
 }
