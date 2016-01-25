@@ -173,7 +173,13 @@ ngx_http_srcache_header_filter(ngx_http_request_t *r)
 
         return ngx_http_srcache_next_header_filter(r);
     }
-
+    
+    //daledi: compare min_uses
+    if (r->cache->node->uses < slcf->min_uses) {
+        return ngx_http_srcache_next_header_filter(r);
+    }
+    //daledi
+    
     if (slcf->store_skip != NULL
         && ngx_http_complex_value(r, slcf->store_skip, &skip) == NGX_OK
         && skip.len
